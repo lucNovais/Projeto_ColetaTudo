@@ -12,7 +12,7 @@
 //TAD para o jogador
 typedef struct tjogador
 {
-	int vidas;
+	int vidas, posX, posY;
 	int pontos;
 	char tipo;
 	char nome[50];
@@ -27,6 +27,8 @@ void PlayerStart(TPlayer *player)
 	player->vidas = 3;
 	player->pontos = 0;
 	player->tipo = '*';
+	player->posX = 8;
+	player->posY = 8;
 	
 	foreground(YELLOW);
 	
@@ -41,22 +43,11 @@ void PlayerStart(TPlayer *player)
 	system("cls");
 }
 
-//Função que será responsável por inicializar o jogo
-void Start(TPlayer *player)
+//Função recursiva para gerenciar os elementos durante o jogo e imprimir o que está acontecendo
+void GameManager(TPlayer *player, char matriz[16][16]) 
 {
 	int i, j;
-	char matriz[16][16];
-	
-	PlayerStart(player);
-	
-	for(i = 0; i < 16; i++)
-		for(j = 0; j < 16; j++)
-			matriz[i][j] = '_';
-	
-	matriz[8][8] = '*';
-	
-	foreground(BLUE);
-	printf("-------------------COLETA TUDO!-------------------\n");
+	char comando;
 	
 	foreground(WHITE);
 	printf("\nJogador(a): ");
@@ -71,10 +62,13 @@ void Start(TPlayer *player)
 	foreground(GREEN);
 	printf("%d\n", player->pontos);
 	
+	matriz[player->posX][player->posY] = player->tipo;
+	
+	foreground(BLUE);
+	printf("-------------------COLETA TUDO!-------------------\n");
 	
 	foreground(RED);	
 		
-	//Temporário, posteriormente isso ficará em um GameLoop
 	printf(" __________________________________________________\n\n[ ");		
 	for(i = 0; i < 16; i++)
 	{
@@ -86,7 +80,7 @@ void Start(TPlayer *player)
 				printf("|%c|", matriz[i][j]);
 			}
 				
-			else if(matriz[i][j] == '*')
+			else if(matriz[i][j] == player->tipo)
 			{
 				foreground(WHITE);
 				printf("|");
@@ -113,6 +107,112 @@ void Start(TPlayer *player)
 	printf("\n __________________________________________________ ");
 	printf("\n\n");
 	
+	foreground(YELLOW);
+	
+	if(player->vidas > 0)
+	{
+		printf("\nInforme sua movimentação: ");
+		fflush(stdin);
+		scanf("%c", &comando);
+		
+		if(comando == 'a' && player->posY > 0)
+		{
+			matriz[player->posX][player->posY] = '_'; //Retira o caractere do jogador e atribui como espaço vazio do mapa
+			player->posY--; //Atualzia a posição do jogador de acordo com o input do usuario
+			
+			system("cls");
+			GameManager(player, matriz);
+		}
+		else if(comando == 'd' && player->posY < 15)
+		{
+			matriz[player->posX][player->posY] = '_';
+			player->posY++;
+			
+			system("cls");
+			GameManager(player, matriz);
+		}
+		else if(comando == 's' && player->posX < 15)
+		{
+			matriz[player->posX][player->posY] = '_';
+			player->posX++;
+			
+			system("cls");
+			GameManager(player, matriz);
+		}
+		else if(comando == 'w' && player->posX > 0)
+		{
+			matriz[player->posX][player->posY] = '_';
+			player->posX--;
+			
+			system("cls");
+			GameManager(player, matriz);
+		}
+		else if(comando == 'p') //Comando para sair do jogo e voltar ao menu, ainda está bugado
+		{
+			char aux;
+			
+			foreground(RED);
+			printf("\nTem certeza que deseja sair? (s/n) ");
+			fflush(stdin);
+			scanf("%c", &aux);
+			
+			if(aux == 's')
+			{
+				main();
+			}
+			else if(aux == 'n')
+			{
+				system("cls");
+				GameManager(player, matriz);
+			}
+			else
+			{
+				printf("\nInforme uma opção válida!\n");
+				system("pause");
+			}
+				
+		}
+		else
+		{
+			printf("\nInforme uma opção válida!\n");
+			system("pause");
+			
+			system("cls");
+			GameManager(player, matriz);
+		}
+			
+
+	}
+	else //Condicional caso o jogador perca o numero total de vidas, ainda nao foi possivel testar...
+	{
+		system("cls");
+		foreground(RED);
+		printf("\nFIM DE JOGO!\n");
+		foreground(WHITE);
+		printf("\nSua pontuação: ");
+		foreground(GREEN);
+		printf("%d", player->pontos);
+		
+		system("pause");
+		main();
+	}
+	
+}
+
+//Função que será responsável por inicializar o jogo
+void Start(TPlayer *player)
+{
+	int i, j;
+	char matriz[16][16];
+	
+	PlayerStart(player);
+	
+	for(i = 0; i < 16; i++)
+		for(j = 0; j < 16; j++)
+			matriz[i][j] = '_';
+	
+	GameManager(player, matriz);
+	
 	foreground(WHITE);//Muda as cores do texto
 }
 
@@ -129,6 +229,7 @@ void SubMenu2()
 	printf("\n\n2) OBJETIVO: \n\nO objetivo do jogo é coletar os símbolos que são iguais ao do seu personagem no mapa, em que a cada\n");
 	printf("vez que você coleta 5 símbolos, o seu personagem muda de aparência e você precisa coletar os símbolos\n");
 	printf("correspondentes ao seu personagem, evitando encostar nos outros.\n\n");
+	printf("Se deseja SAIR durante uma partida, pressione P!\n\n");
 }
 
 void MSG_MENU()
