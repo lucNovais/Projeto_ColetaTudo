@@ -13,11 +13,18 @@
 typedef struct tjogador
 {
 	int vidas, posX, posY;
-	int pontos;
+	int pontos, moveu;
 	char tipo;
 	char nome[50];
 
 }TPlayer;
+
+//TAD para o inimigo
+typedef struct tinimigo
+{
+	int posX, posY;
+	char tipo;
+}TEnemy;
 
 //Função que inicializa o jogador
 void PlayerStart(TPlayer *player)
@@ -29,6 +36,7 @@ void PlayerStart(TPlayer *player)
 	player->tipo = '*';
 	player->posX = 8;
 	player->posY = 8;
+	player->moveu = 0;
 	
 	foreground(YELLOW);
 	
@@ -41,6 +49,52 @@ void PlayerStart(TPlayer *player)
 	
 	system("pause");
 	system("cls");
+}
+
+void AddEnemy(TPlayer player, char matriz[16][16], int num)
+{
+	int i, aux;
+	TEnemy inimigos[num];
+	
+	for(i = 0; i < 5; i++)
+	{
+		aux = rand() % 4;
+		
+		if(player.pontos <= 300)
+		{
+			if(aux == 0 || aux == 1)
+				inimigos[i].tipo = '#';
+			else
+				inimigos[i].tipo = '+';
+		}
+		else
+		{
+			if(aux == 0 || aux == 1 || aux == 3)
+				inimigos[i].tipo = '#';
+			else
+				inimigos[i].tipo = '+';
+		}
+		inimigos[i].posX = (rand() % 15);
+		inimigos[i].posY = (rand() % 15);
+		
+		if(inimigos[i].posX == player.posX)
+		{
+			while(inimigos[i].posX == player.posX)
+			{
+				inimigos[i].posX = (rand() % 15);
+			}
+		}
+		if(inimigos[i].posY == player.posY)
+		{
+			while(inimigos[i].posY == player.posY)
+			{
+				inimigos[i].posY = (rand() % 15);
+			}
+		}
+		
+		matriz[inimigos[i].posX][inimigos[i].posY] = inimigos[i].tipo;
+	}
+
 }
 
 //Função recursiva para gerenciar os elementos durante o jogo e imprimir o que está acontecendo
@@ -63,6 +117,12 @@ void GameManager(TPlayer *player, char matriz[16][16])
 	printf("%d\n", player->pontos);
 	
 	matriz[player->posX][player->posY] = player->tipo;
+	
+	if(player->moveu == 5)
+	{
+		AddEnemy(*player, matriz, 5);
+		player->moveu = 0;
+	}
 	
 	foreground(BLUE);
 	printf("-------------------COLETA TUDO!-------------------\n");
@@ -88,7 +148,25 @@ void GameManager(TPlayer *player, char matriz[16][16])
 				printf("%c", matriz[i][j]);
 				foreground(WHITE);
 				printf("|");
-			}		
+			}
+			else if(matriz[i][j] == '#')
+			{
+				foreground(WHITE);
+				printf("|");
+				foreground(RED);
+				printf("%c", matriz[i][j]);
+				foreground(WHITE);
+				printf("|");
+			}
+			else if(matriz[i][j] == '+')
+			{
+				foreground(WHITE);
+				printf("|");
+				foreground(BLUE);
+				printf("%c", matriz[i][j]);
+				foreground(WHITE);
+				printf("|");
+			}
 		}
 		if(i != 15)
 		{
@@ -111,14 +189,20 @@ void GameManager(TPlayer *player, char matriz[16][16])
 	
 	if(player->vidas > 0)
 	{
-		printf("\nInforme sua movimentação: ");
+		printf("\nDigite seu comando: ");
 		fflush(stdin);
-		scanf("%c", &comando);
+		comando = getch();
 		
 		if(comando == 'a' && player->posY > 0)
 		{
 			matriz[player->posX][player->posY] = '_'; //Retira o caractere do jogador e atribui como espaço vazio do mapa
 			player->posY--; //Atualzia a posição do jogador de acordo com o input do usuario
+			player->moveu++;
+			
+			if(matriz[player->posX][player->posY] == '#')
+				player->vidas--;
+			else if(matriz[player->posX][player->posY] == '+')
+				player->pontos += 5;
 			
 			system("cls");
 			GameManager(player, matriz);
@@ -127,6 +211,14 @@ void GameManager(TPlayer *player, char matriz[16][16])
 		{
 			matriz[player->posX][player->posY] = '_';
 			player->posY++;
+			player->moveu++;
+			
+			
+			if(matriz[player->posX][player->posY] == '#')
+				player->vidas--;
+			else if(matriz[player->posX][player->posY] == '+')
+				player->pontos += 5;
+			
 			
 			system("cls");
 			GameManager(player, matriz);
@@ -135,6 +227,14 @@ void GameManager(TPlayer *player, char matriz[16][16])
 		{
 			matriz[player->posX][player->posY] = '_';
 			player->posX++;
+			player->moveu++;
+			
+			
+			if(matriz[player->posX][player->posY] == '#')
+				player->vidas--;
+			else if(matriz[player->posX][player->posY] == '+')
+				player->pontos += 5;
+			
 			
 			system("cls");
 			GameManager(player, matriz);
@@ -143,6 +243,14 @@ void GameManager(TPlayer *player, char matriz[16][16])
 		{
 			matriz[player->posX][player->posY] = '_';
 			player->posX--;
+			player->moveu++;
+			
+			
+			if(matriz[player->posX][player->posY] == '#')
+				player->vidas--;
+			else if(matriz[player->posX][player->posY] == '+')
+				player->pontos += 5;
+			
 			
 			system("cls");
 			GameManager(player, matriz);
@@ -157,9 +265,7 @@ void GameManager(TPlayer *player, char matriz[16][16])
 			scanf("%c", &aux);
 			
 			if(aux == 's')
-			{
-				main();
-			}
+				return;
 			else if(aux == 'n')
 			{
 				system("cls");
@@ -169,6 +275,9 @@ void GameManager(TPlayer *player, char matriz[16][16])
 			{
 				printf("\nInforme uma opção válida!\n");
 				system("pause");
+				
+				system("cls");
+				GameManager(player, matriz);
 			}
 				
 		}
@@ -191,10 +300,9 @@ void GameManager(TPlayer *player, char matriz[16][16])
 		foreground(WHITE);
 		printf("\nSua pontuação: ");
 		foreground(GREEN);
-		printf("%d", player->pontos);
+		printf("%d\n\n", player->pontos);
 		
-		system("pause");
-		main();
+		return;
 	}
 	
 }
@@ -235,6 +343,7 @@ void SubMenu2()
 void MSG_MENU()
 {	
 	foreground(BLUE);
+	srand(time(NULL));
 	
 	printf("----------COLETA TUDO!----------\n");
 	
