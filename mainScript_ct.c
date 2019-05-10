@@ -58,22 +58,30 @@ void AddEnemy(TPlayer player, char matriz[16][16], int num)
 	
 	for(i = 0; i < 5; i++)
 	{
-		aux = rand() % 4;
+		aux = rand() % 8;
 		
-		if(player.pontos <= 300)
+		if(player.pontos <= 150)
 		{
-			if(aux == 0 || aux == 1)
+			if(aux == 0 || aux == 1 || aux == 2 || aux ==3)
+				inimigos[i].tipo = '#';
+			else
+				inimigos[i].tipo = '+';
+		}
+		else if(player.pontos <= 220)
+		{
+			if(aux == 0 || aux == 1 || aux == 3 || aux == 4)
 				inimigos[i].tipo = '#';
 			else
 				inimigos[i].tipo = '+';
 		}
 		else
 		{
-			if(aux == 0 || aux == 1 || aux == 3)
+			if(aux == 0 || aux == 2 || aux == 3 || aux == 4 || aux == 5)
 				inimigos[i].tipo = '#';
 			else
-				inimigos[i].tipo = '+';
+				inimigos[i].tipo = '+';	
 		}
+		
 		inimigos[i].posX = (rand() % 15);
 		inimigos[i].posY = (rand() % 15);
 		
