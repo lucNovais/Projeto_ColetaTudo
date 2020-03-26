@@ -26,7 +26,7 @@ typedef struct tinimigo
 	char tipo;
 }TEnemy;
 
-//Função que inicializa o jogador
+//Funï¿½ï¿½o que inicializa o jogador
 void PlayerStart(TPlayer *player)
 {
 	system("cls");
@@ -105,7 +105,7 @@ void AddEnemy(TPlayer player, char matriz[16][16], int num)
 
 }
 
-//Função recursiva para gerenciar os elementos durante o jogo e imprimir o que está acontecendo
+//Funï¿½ï¿½o recursiva para gerenciar os elementos durante o jogo e imprimir o que estï¿½ acontecendo
 void GameManager(TPlayer *player, char matriz[16][16]) 
 {
 	int i, j;
@@ -120,7 +120,7 @@ void GameManager(TPlayer *player, char matriz[16][16])
 	foreground(GREEN);
 	printf("%d", player->vidas);
 	foreground(WHITE);
-	printf("\nPontuação: ");
+	printf("\nPontuaï¿½ï¿½o: ");
 	foreground(GREEN);
 	printf("%d\n", player->pontos);
 	
@@ -203,8 +203,8 @@ void GameManager(TPlayer *player, char matriz[16][16])
 		
 		if(comando == 'a' && player->posY > 0)
 		{
-			matriz[player->posX][player->posY] = '_'; //Retira o caractere do jogador e atribui como espaço vazio do mapa
-			player->posY--; //Atualzia a posição do jogador de acordo com o input do usuario
+			matriz[player->posX][player->posY] = '_'; //Retira o caractere do jogador e atribui como espaï¿½o vazio do mapa
+			player->posY--; //Atualzia a posiï¿½ï¿½o do jogador de acordo com o input do usuario
 			player->moveu++;
 			
 			if(matriz[player->posX][player->posY] == '#')
@@ -263,7 +263,7 @@ void GameManager(TPlayer *player, char matriz[16][16])
 			system("cls");
 			GameManager(player, matriz);
 		}
-		else if(comando == 'p') //Comando para sair do jogo e voltar ao menu, ainda está bugado
+		else if(comando == 'p') //Comando para sair do jogo e voltar ao menu, ainda estï¿½ bugado
 		{
 			char aux;
 			
@@ -281,7 +281,7 @@ void GameManager(TPlayer *player, char matriz[16][16])
 			}
 			else
 			{
-				printf("\nInforme uma opção válida!\n");
+				printf("\nInforme uma opï¿½ï¿½o vï¿½lida!\n");
 				system("pause");
 				
 				system("cls");
@@ -291,7 +291,7 @@ void GameManager(TPlayer *player, char matriz[16][16])
 		}
 		else
 		{
-			printf("\nInforme uma opção válida!\n");
+			printf("\nInforme uma opï¿½ï¿½o vï¿½lida!\n");
 			system("pause");
 			
 			system("cls");
@@ -306,7 +306,7 @@ void GameManager(TPlayer *player, char matriz[16][16])
 		foreground(RED);
 		printf("\nFIM DE JOGO!\n");
 		foreground(WHITE);
-		printf("\nSua pontuação: ");
+		printf("\nSua pontuaï¿½ï¿½o: ");
 		foreground(GREEN);
 		printf("%d\n\n", player->pontos);
 		
@@ -315,7 +315,7 @@ void GameManager(TPlayer *player, char matriz[16][16])
 	
 }
 
-//Função que será responsável por inicializar o jogo
+//Funï¿½ï¿½o que serï¿½ responsï¿½vel por inicializar o jogo
 void Start(TPlayer *player)
 {
 	int i, j;
@@ -336,15 +336,14 @@ void SubMenu2()
 {
 	foreground(BLUE);
 	
-	printf("\t-----Instruçoes para jogar COLETA TUDO!-----\n");
+	printf("\t-----Instruï¿½oes para jogar COLETA TUDO!-----\n");
 	
 	foreground(WHITE);
 	
-	printf("\n1) MOVIMENTAÇÃO: \n\nW - Mover para cima;\nS - Mover para baixo;");
+	printf("\n1) MOVIMENTAï¿½ï¿½O: \n\nW - Mover para cima;\nS - Mover para baixo;");
 	printf("\nA - Mover para a esquerda;\nD - Mover para a direita.\n");
-	printf("\n\n2) OBJETIVO: \n\nO objetivo do jogo é coletar os símbolos que são iguais ao do seu personagem no mapa, em que a cada\n");
-	printf("vez que você coleta 5 símbolos, o seu personagem muda de aparência e você precisa coletar os símbolos\n");
-	printf("correspondentes ao seu personagem, evitando encostar nos outros.\n\n");
+	printf("\n\n2) OBJETIVO: \n\nO objetivo do jogo ï¿½ coletar os sï¿½mbolos azuis no mapa, em que a cada\n");
+	printf("vez que voce encosta em um simbolo vermelho, voce perde uma vida.\n");
 	printf("Se deseja SAIR durante uma partida, pressione P!\n\n");
 }
 
@@ -359,7 +358,7 @@ void MSG_MENU()
 	
 	printf("\n\t1. JOGAR");
 	printf("\n\t2. COMO JOGAR");
-	printf("\n\t3. OPÇÕES");
+	printf("\n\t3. OPï¿½ï¿½ES");
 	printf("\n\t4. SAIR");
 }
 
@@ -380,7 +379,7 @@ int main()
 		
 		foreground(YELLOW);
 		
-		printf("\n\nDigite sua opção: ");
+		printf("\n\nDigite sua opï¿½ï¿½o: ");
 		fflush(stdin);
 		scanf("%d", &opcao);
 		
@@ -389,7 +388,7 @@ int main()
 			case 1:
 				system("cls");
 				
-				//Chamar função para começar o jogo;
+				//Chamar funï¿½ï¿½o para comeï¿½ar o jogo;
 				
 				Start(&player);
 				
@@ -405,7 +404,7 @@ int main()
 			case 3:
 				system("cls");
 				
-				//Chama o menu de opções;
+				//Chama o menu de opï¿½ï¿½es;
 				
 				system("pause");
 				break;
@@ -415,7 +414,7 @@ int main()
 				printf("\n-----Saindo do jogo!-----\n\n");
 				break;
 			default:
-				printf("\n-----Opção inválida!-----\n\n");
+				printf("\n-----Opï¿½ï¿½o invï¿½lida!-----\n\n");
 		}
 		
 	}while(opcao != 4);
