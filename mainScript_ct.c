@@ -120,7 +120,7 @@ void GameManager(TPlayer *player, char matriz[16][16])
 	foreground(GREEN);
 	printf("%d", player->vidas);
 	foreground(WHITE);
-	printf("\nPontua��o: ");
+	printf("\nPontuacao: ");
 	foreground(GREEN);
 	printf("%d\n", player->pontos);
 	
@@ -281,7 +281,7 @@ void GameManager(TPlayer *player, char matriz[16][16])
 			}
 			else
 			{
-				printf("\nInforme uma op��o v�lida!\n");
+				printf("\nInforme uma opcao valida!\n");
 				system("pause");
 				
 				system("cls");
@@ -291,7 +291,7 @@ void GameManager(TPlayer *player, char matriz[16][16])
 		}
 		else
 		{
-			printf("\nInforme uma op��o v�lida!\n");
+			printf("\nInforme uma opcao valida!\n");
 			system("pause");
 			
 			system("cls");
@@ -306,7 +306,7 @@ void GameManager(TPlayer *player, char matriz[16][16])
 		foreground(RED);
 		printf("\nFIM DE JOGO!\n");
 		foreground(WHITE);
-		printf("\nSua pontua��o: ");
+		printf("\nSua pontuacao: ");
 		foreground(GREEN);
 		printf("%d\n\n", player->pontos);
 		
@@ -336,13 +336,13 @@ void SubMenu2()
 {
 	foreground(BLUE);
 	
-	printf("\t-----Instru�oes para jogar COLETA TUDO!-----\n");
+	printf("\t-----Instrucoes para jogar COLETA TUDO!-----\n");
 	
 	foreground(WHITE);
 	
-	printf("\n1) MOVIMENTA��O: \n\nW - Mover para cima;\nS - Mover para baixo;");
+	printf("\n1) MOVIMENTACAO: \n\nW - Mover para cima;\nS - Mover para baixo;");
 	printf("\nA - Mover para a esquerda;\nD - Mover para a direita.\n");
-	printf("\n\n2) OBJETIVO: \n\nO objetivo do jogo � coletar os s�mbolos azuis no mapa, em que a cada\n");
+	printf("\n\n2) OBJETIVO: \n\nO objetivo do jogo e coletar os simbolos azuis no mapa, em que a cada\n");
 	printf("vez que voce encosta em um simbolo vermelho, voce perde uma vida.\n");
 	printf("Se deseja SAIR durante uma partida, pressione P!\n\n");
 }
@@ -358,7 +358,7 @@ void MSG_MENU()
 	
 	printf("\n\t1. JOGAR");
 	printf("\n\t2. COMO JOGAR");
-	printf("\n\t3. OP��ES");
+	printf("\n\t3. OPCOES");
 	printf("\n\t4. SAIR");
 }
 
@@ -379,7 +379,7 @@ int main()
 		
 		foreground(YELLOW);
 		
-		printf("\n\nDigite sua op��o: ");
+		printf("\n\nDigite sua opcao: ");
 		fflush(stdin);
 		scanf("%d", &opcao);
 		
@@ -414,7 +414,7 @@ int main()
 				printf("\n-----Saindo do jogo!-----\n\n");
 				break;
 			default:
-				printf("\n-----Op��o inv�lida!-----\n\n");
+				printf("\n-----Opcao invalida!-----\n\n");
 		}
 		
 	}while(opcao != 4);
